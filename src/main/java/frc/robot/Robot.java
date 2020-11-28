@@ -124,6 +124,12 @@ public class Robot extends TimedRobot {
   WPI_TalonFX conveyor = new WPI_TalonFX(8);
   // PHASE 10 END
 
+  // PHASE 13 START
+  Solenoid intakePiston = new Solenoid(0, 1); //is this the right way to set channel?
+  WPI_TalonFX outerIntake = new WPI_TalonFX(10);
+  // PHASE 13 END
+
+
   @Override
   public void robotInit() {
     // PHASE 1 START
@@ -354,6 +360,19 @@ public class Robot extends TimedRobot {
   // PHASE 12 END
 
   // PHASE 13 START
+  public void updateExternalIntake() {
+    if (rightTrigger) {
+      intakePiston.set(true);
 
+      if (outerIntake.getSelectedSensorVelocity()>160||(leftLeftArrayBL||leftThumbLeft)) { // on labview, the thing says FX get, so get sensor velocity?
+        outerIntake.set(-1);
+      } else {
+        outerIntake.set(.65);
+      }
+    } else {
+      outerIntake.set(0);
+      intakePiston.set(false);
+    }
+  }
   // PHASE 13 END
 }
